@@ -7,7 +7,9 @@
     "dev": "nodemon server.js",
     "android": "npx react-native run-android",
     "ios": "npx react-native run-ios",
-    "web": "npx expo start"
+    "web": "npx expo start",
+    "main": "expo-router/entry"
+
   },
   "dependencies": {
     "react": "18.2.0",

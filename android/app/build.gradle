@@ -1,67 +1,29 @@
-
-
-
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdk 34
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.bazarstuddz"
-        minSdk 24
-        targetSdk 34
+        minSdkVersion 21
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = '17'
     }
 }
 
 dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "com.facebook.react:react-native:+"
 
-    // AndroidX libraries
-    implementation 'androidx.core:core-ktx:1.12.0'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.11.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.3.1'
-
-    // Firebase Authentication
-    implementation 'com.google.firebase:firebase-auth-ktx:22.2.0'
-
-    // Firebase Firestore (Database)
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.6.2'
-
-    // Firebase Storage (Images)
-    implementation 'com.google.firebase:firebase-storage-ktx:21.2.2'
-
-    // Optional - Kotlin Coroutines for Firebase (if you use async)
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
-
-    // Test dependencies
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.6'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation platform('com.google.firebase:firebase-bom:34.9.0')
+    implementation 'com.google.firebase:firebase-analytics'
 }
-
-// ADD THIS AT THE VERY BOTTOM
-apply plugin: 'com.google.gms.google-services'

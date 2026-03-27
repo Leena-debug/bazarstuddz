@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "expo": "^55.0.8",
+    "express": "^5.2.1",
     "firebase": "^12.10.0",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.1.5",
@@ -9,12 +11,20 @@
   "name": "bazarstuddz",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "expo-router/entry",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ry-ad/Aryna.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ry-ad/Aryna/issues"
+  },
+  "homepage": "https://github.com/ry-ad/Aryna#readme"
 }

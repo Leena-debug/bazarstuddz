@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(185, 217, 248, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.3)',
   },
   safeArea: {
     flex: 1,
@@ -164,7 +164,7 @@ buttonText: {
 },
 
 roleContainer: {
-  marginTop: 35,
+  marginTop: 60,
   gap: 12,
 },
 roleRow: {

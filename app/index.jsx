@@ -89,6 +89,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  
+    box: {
+    width: '80%', // 80% of the screen width
+    height: '50%', // 50% of the screen height
+  },
+
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',

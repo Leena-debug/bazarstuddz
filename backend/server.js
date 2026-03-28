@@ -20,7 +20,7 @@ app.post("/api/users/register", (req, res) => {
   res.json({ message: "Register received" });
 });
 
-app.use("/api/users", userRoutes);
+// app.use("/api/users", userRoutes);
 app.listen(5000, () => {
   console.log("Server running on port 5000");
 });

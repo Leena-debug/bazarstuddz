@@ -9,16 +9,17 @@
     "ios": "npx react-native run-ios",
     "web": "npx expo start",
     "main": "expo-router/entry"
-
   },
   "dependencies": {
-    "react": "18.2.0",
-    "react-native": "0.72.0",
-    "firebase": "^10.0.0",
     "cors": "^2.8.5",
-    "express": "^4.19.2",
     "dotenv": "^16.4.5",
-    "pg": "^8.11.0"      
+    "expo": "^55.0.9",
+    "express": "^4.19.2",
+    "firebase": "^10.0.0",
+    "pg": "^8.11.0",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-native-web": "^0.21.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

@@ -5,7 +5,9 @@
       "expo-router"
     ],
     "allowJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0"
   },
   "include": [
     "**/*.ts",

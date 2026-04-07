@@ -1,50 +1,64 @@
-import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity, ScrollView, Alert, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, Text, StyleSheet, ImageBackground, Image, TouchableOpacity, ScrollView, KeyboardAvoidingView, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CustomInput from '../src/components/CustomInput';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../src/firebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { isValidUniversityEmail } from '../storage/mockDB';
 
-export default function Login(){
+export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleContinue = async () => {
-    // Validation
-    if (!email || !password) {
-      Alert.alert('Error', 'Please fill in all fields')
-      return
+    if (loading) return;
+    setErrorMsg('');
+
+    const trimmedEmail = email.trim();
+
+    if (!trimmedEmail || !password) {
+      setErrorMsg('Please fill in all fields');
+      return;
     }
-    if (!email.endsWith('@univ-alger.dz')) {
-      Alert.alert('Error', 'Please use your university email (@univ-alger.dz)')
-      return
+    if (!trimmedEmail.endsWith('@univ-alger.dz')) {
+      setErrorMsg('Please use your university email (@univ-alger.dz)');
+      return;
+    }
+    if (!isValidUniversityEmail(trimmedEmail)) {
+      setErrorMsg('This email is not registered in our university system');
+      return;
     }
 
+    setLoading(true);
     try {
-      // 🔥 Connect to backend
-      const response = await fetch('http://10.0.2.2:5000/api/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      });
+      const result = await signInWithEmailAndPassword(auth, trimmedEmail, password);
+      const user = result.user;
 
-      const data = await response.json();
-      
-      if (response.ok) {
-        console.log('Login success:', data);
-        Alert.alert('Success', 'Login successful!');
-        router.push('/home');
-      } else {
-        Alert.alert('Error', data.message || 'Login failed');
-      }
+      await AsyncStorage.setItem('current_user', JSON.stringify({
+        uid: user.uid,
+        email: user.email,
+      }));
+
+      console.log('Login success:', user.email);
+      router.push('/home');
     } catch (error) {
-      console.error('Login error:', error);
-      Alert.alert('Error', 'Cannot connect to server. Make sure backend is running on port 5000');
+      console.error('Login error:', error.code);
+      if (error.code === 'auth/invalid-credential') {
+        setErrorMsg('Wrong email or password');
+      } else if (error.code === 'auth/user-not-found') {
+        setErrorMsg('No account found with this email');
+      } else if (error.code === 'auth/network-request-failed') {
+        setErrorMsg('Network error, check your connection');
+      } else {
+        setErrorMsg('Login failed, try again');
+      }
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -68,29 +82,36 @@ export default function Login(){
                 resizeMode="contain"
               />
             </View>
-          
+
             <ScrollView
               style={styles.scrollView}
               contentContainerStyle={styles.formContainer}
               keyboardShouldPersistTaps="handled"
               showsVerticalScrollIndicator={false}
             >
-              <CustomInput 
-                placeholder="Enter University Email" 
-                value={email} 
-                setValue={setEmail}     
-                icon="mail-outline" 
+              <CustomInput
+                placeholder="Enter University Email"
+                value={email}
+                setValue={setEmail}
+                icon="mail-outline"
+                autoCapitalize="none"
+                autoCorrect={false}
               />
-              <CustomInput 
-                placeholder="Enter Password"     
-                value={password}  
-                setValue={setPassword}  
-                icon="lock-closed-outline" 
-                secureTextEntry={true} 
+              <CustomInput
+                placeholder="Enter Password"
+                value={password}
+                setValue={setPassword}
+                icon="lock-closed-outline"
+                secureTextEntry={true}
               />
-              
-              <TouchableOpacity 
-                style={styles.bottomSignup} 
+
+              {/* error message */}
+              {errorMsg ? (
+                <Text style={styles.errorText}>{errorMsg}</Text>
+              ) : null}
+
+              <TouchableOpacity
+                style={styles.bottomSignup}
                 onPress={() => router.push('/signup')}
               >
                 <Text style={styles.signupText}>
@@ -98,7 +119,7 @@ export default function Login(){
                   <Text style={styles.signupLink}>Create one</Text>
                 </Text>
               </TouchableOpacity>
-              
+
               <View style={styles.buttonRow}>
                 <TouchableOpacity
                   style={styles.button}
@@ -106,12 +127,15 @@ export default function Login(){
                 >
                   <Text style={styles.buttonText}>Back</Text>
                 </TouchableOpacity>
-                
-                <TouchableOpacity 
+
+                <TouchableOpacity
                   style={styles.button}
                   onPress={handleContinue}
+                  disabled={loading}
                 >
-                  <Text style={styles.buttonText}>Continue</Text>
+                  <Text style={styles.buttonText}>
+                    {loading ? 'Please wait...' : 'Continue'}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
@@ -123,14 +147,8 @@ export default function Login(){
 }
 
 const styles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-  background1: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
+  root: { flex: 1 },
+  background1: { flex: 1, width: '100%', height: '100%' },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
@@ -141,9 +159,7 @@ const styles = StyleSheet.create({
     paddingBottom: 30,
     paddingTop: 60,
   },
-  scrollView: {
-    flex: 1,
-  },
+  scrollView: { flex: 1 },
   formContainer: {
     gap: 12,
     paddingBottom: 20,
@@ -151,13 +167,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 15,
   },
-  logoContainer: {
-    alignItems: 'center',
-  },
-  Logo1: {
-    width: 300,
-    height: 200,
-    marginBottom: 0,
+  logoContainer: { alignItems: 'center' },
+  Logo1: { width: 300, height: 200 },
+  errorText: {
+    color: '#ff6b6b',
+    fontSize: 13,
+    textAlign: 'center',
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    padding: 8,
+    borderRadius: 8,
   },
   buttonRow: {
     flexDirection: 'row',
@@ -178,9 +196,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     paddingTop: 10,
   },
-  bottomSignup: {
-    alignItems: 'center',
-  },
+  bottomSignup: { alignItems: 'center' },
   signupText: {
     color: 'rgba(246, 255, 243, 0.97)',
     fontSize: 14,

@@ -1,6 +1,12 @@
 // build.gradle (Project level)
 
 buildscript {
+    ext {
+        compileSdkVersion = 34
+        targetSdkVersion = 34
+        minSdkVersion = 21
+    }
+
     repositories {
         google()
         mavenCentral()
@@ -16,6 +22,17 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+// 🔥 VERY IMPORTANT FIX for Firebase modules
+subprojects {
+    afterEvaluate { project ->
+        if (project.hasProperty("android")) {
+            project.android {
+                compileSdkVersion rootProject.ext.compileSdkVersion
+            }
+        }
     }
 }
 

@@ -1,5 +1,55 @@
 const express = require("express");
+<<<<<<< HEAD
 const cors = require("cors");
+=======
+const app = express();
+const userRoutes = require("./routes/userRoutes");
+
+app.use(express.json());
+
+// 🔥 Test route
+app.get("/", (req, res) => {
+  res.send("Backend is working ✅");
+});
+
+// 🔥 Login route
+app.post("/api/users/login", (req, res) => {
+  console.log("Login data:", req.body);
+  res.json({ message: "Login received" });
+});
+
+// 🔥 Register route
+app.post("/api/users/register", (req, res) => {
+  console.log("Register data:", req.body);
+  res.json({ message: "Register received" });
+});
+
+app.use("/api/users", userRoutes);
+app.listen(5000, () => {
+  console.log("Server running on port 5000");
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*const express = require('express');
+const cors = require('cors');
+>>>>>>> cb2453f1aaf1afeca8c0809935917da009974bda
 require('dotenv').config();
 const db = require('./config/db');
 

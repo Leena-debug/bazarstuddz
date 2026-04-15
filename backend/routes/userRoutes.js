@@ -8,4 +8,9 @@ router.post("/login", userController.login);
 // REGISTER
 router.post("/register", userController.register);
 
+router.get("/", (req, res) => {
+  res.send("Users route working");
+});
+
+
 module.exports = router;

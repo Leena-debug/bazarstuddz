@@ -1,6 +1,6 @@
 const db = require('../config/db');
 
-// Create favorites table
+// Create favorites table if not exists
 const createFavoritesTable = `
 CREATE TABLE IF NOT EXISTS favorites (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -26,7 +26,9 @@ exports.addFavorite = (req, res) => {
 // GET favorites
 exports.getFavorites = (req, res) => {
   const user_id = req.user.id;
-  const query = `SELECT p.* FROM favorites f JOIN products p ON f.product_id = p.id WHERE f.user_id = ?`;
+  const query = `SELECT p.* FROM favorites f 
+                 JOIN products p ON f.product_id = p.id 
+                 WHERE f.user_id = ?`;
   db.query(query, [user_id], (err, results) => {
     if (err) return res.status(500).json({ success: false, message: err.message });
     res.json({ success: true, favorites: results });

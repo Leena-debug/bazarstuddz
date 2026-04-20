@@ -1,31 +1,13 @@
 const db = require('../config/db');
 
-// CREATE product
-exports.createProduct = (req, res) => {
-  const { title, description, price, category, product_condition, images } = req.body;
-  const seller_id = req.user.id;
-
-  const query = `INSERT INTO products (title, description, price, category, product_condition, images, seller_id) 
-               VALUES (?, ?, ?, ?, ?, ?, ?)`;
-  
-  db.query(query, [title, description, price, category, product_condition, JSON.stringify(images || []), seller_id], (err, result) => {
-    if (err) {
-      console.error('Database error:', err);
-      return res.status(500).json({ success: false, message: err.message });
-    }
-    res.status(201).json({ 
-      success: true, 
-      message: 'Product created', 
-      productId: result.insertId 
-    });
-  });
-};
-
 // GET all products
 exports.getAllProducts = (req, res) => {
   const query = 'SELECT * FROM products WHERE status = "available" ORDER BY created_at DESC';
   db.query(query, (err, results) => {
-    if (err) return res.status(500).json({ success: false, message: err.message });
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ success: false, message: err.message });
+    }
     res.json({ success: true, products: results });
   });
 };
@@ -40,11 +22,25 @@ exports.getProductById = (req, res) => {
   });
 };
 
+// CREATE product
+exports.createProduct = (req, res) => {
+  const { title, description, price, category, product_condition, images } = req.body;
+  const seller_id = req.user.id;
+
+  const query = `INSERT INTO products (title, description, price, category, product_condition, images, seller_id) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  
+  db.query(query, [title, description, price, category, product_condition, JSON.stringify(images || []), seller_id], (err, result) => {
+    if (err) return res.status(500).json({ success: false, message: err.message });
+    res.status(201).json({ success: true, message: 'Product created', productId: result.insertId });
+  });
+};
+
 // UPDATE product
 exports.updateProduct = (req, res) => {
   const { id } = req.params;
   const { title, description, price, category, product_condition, status } = req.body;
-  const query = `UPDATE products SET title=?, description=?, price=?, category=?, condition=?, status=? WHERE id=?`;
+  const query = `UPDATE products SET title=?, description=?, price=?, category=?, product_condition=?, status=? WHERE id=?`;
   db.query(query, [title, description, price, category, product_condition, status, id], (err) => {
     if (err) return res.status(500).json({ success: false, message: err.message });
     res.json({ success: true, message: 'Product updated' });
@@ -70,7 +66,7 @@ exports.searchProducts = (req, res) => {
     query += ' AND (title LIKE ? OR description LIKE ?)';
     params.push(`%${q}%`, `%${q}%`);
   }
-  if (category) {
+  if (category && category !== 'All') {
     query += ' AND category = ?';
     params.push(category);
   }

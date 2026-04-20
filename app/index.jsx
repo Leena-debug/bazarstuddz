@@ -23,7 +23,7 @@ export default function Index(){
             toValue: MAX_SLIDE,
             duration: 100,
             useNativeDriver: true,
-          }).start(() => router.push('/signup'));
+          }).start(() => router.push('/home'));
         } else {
           Animated.spring(translateX, {
             toValue: 0,
@@ -84,35 +84,12 @@ export default function Index(){
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-  },
-  safeArea: {
-    flex: 1,
-    paddingHorizontal: 24,
-    paddingBottom: 50,
-    paddingTop: 50,
-  },
-  topContent: {
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  logo: {
-    width:300,
-    height:300,
-    marginTop: -30,
-  },
-  centerContent: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  background: { flex: 1, width: '100%', height: '100%' },
+  overlay: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0, 0, 0, 0.3)' },
+  safeArea: { flex: 1, paddingHorizontal: 24, paddingBottom: 50, paddingTop: 50 },
+  topContent: { alignItems: 'center', marginTop: 10 },
+  logo: { width: 300, height: 300, marginTop: -30 },
+  centerContent: { flex: 1, alignItems: 'center', justifyContent: 'center' },
   sliderTrack: {
     width: SLIDER_WIDTH,
     height: THUMB_SIZE + 8,
@@ -123,13 +100,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: 'rgba(255, 255, 255, 0.5)',
   },
-  sliderLabel: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: '600',
-    textAlign: 'center',
-    letterSpacing: 0.8,
-  },
+  sliderLabel: { color: 'white', fontSize: 16, fontWeight: '600', textAlign: 'center', letterSpacing: 0.8 },
   thumb: {
     position: 'absolute',
     left: 4,
@@ -139,29 +110,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
-    boxshadowColor: '#000',
-    boxshadowOffset: { width: 0, height: 3 },
-    boxshadowOpacity: 0.25,
-    boxshadowRadius: 4,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 5,
   },
-  thumbArrow: {
-    color: '#574606',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginTop: -6,
-  },
-  bottomLogin: {
-    alignItems: 'center',
-  },
-  loginText: {
-    color: 'rgba(255, 255, 255, 0.75)',
-    fontSize: 14,
-    marginBottom: 50,
-  },
-  loginLink: {
-    color: 'white',
-    fontWeight: 'bold',
-    textDecorationLine: 'underline',
-  },
+  thumbArrow: { color: '#574606', fontSize: 28, fontWeight: 'bold', marginTop: -6 },
+  bottomLogin: { alignItems: 'center' },
+  loginText: { color: 'rgba(255, 255, 255, 0.75)', fontSize: 14, marginBottom: 50 },
+  loginLink: { color: 'white', fontWeight: 'bold', textDecorationLine: 'underline' },
 });

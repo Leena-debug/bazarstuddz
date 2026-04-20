@@ -109,6 +109,7 @@ export default function Login() {
               {errorMsg ? (
                 <Text style={styles.errorText}>{errorMsg}</Text>
               ) : null}
+
               <TouchableOpacity
                 style={styles.bottomSignup}
                 onPress={() => router.push('/signup')}

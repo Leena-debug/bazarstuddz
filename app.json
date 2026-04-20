@@ -8,12 +8,13 @@
     "userInterfaceStyle": "automatic",
     "icon": "./assets/images/App_Logo.png",
     "android": {
-       "adaptiveIcon": {
-         "foregroundImage": "./assets/images/App_Logo.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/App_Logo.png",
         "backgroundColor": "#FFFFFF"
-       },
+      },
       "package": "com.galaxies.firebase",
-      "googleServicesFile": "./google-services.json"
+      "googleServicesFile": "./google-services.json",
+      "usesCleartextTraffic": true
     },
     "ios": {
       "supportsTablet": true,
@@ -23,31 +24,31 @@
     "web": {
       "output": "static"
     },
-   "plugins": [
-  "expo-router",
-  [
-    "expo-splash-screen",
-    {
-      "image": "./assets/images/splash-icon.png",
-      "imageWidth": 200,
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "dark": { "backgroundColor": "#000000" }
-    }
-  ],
-  [
-    "expo-build-properties",
-    {
-      "android": {
-        "compileSdkVersion": 34,
-        "targetSdkVersion": 34,
-        "buildToolsVersion": "34.0.0"
-      },
-      "ios": {
-        "useFrameworks": "static"
-      }
-    }
-  ]
-]
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#ffffff",
+          "dark": { "backgroundColor": "#000000" }
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "compileSdkVersion": 34,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "34.0.0"
+          },
+          "ios": {
+            "useFrameworks": "static"
+          }
+        }
+      ]
+    ]
   }
 }

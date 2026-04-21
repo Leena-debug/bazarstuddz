@@ -21,7 +21,7 @@ app.use("/api", productRoutes);
 app.get("/", (req, res) => {
   res.json({
     message: "Backend is working ✅",
-    database: "MySQL connected"
+    database: "PostgreSQL connected"
   });
 });
 

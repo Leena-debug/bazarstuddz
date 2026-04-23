@@ -12,6 +12,8 @@ const pool = new Pool({
   connectionTimeoutMillis: 2000, // Timeout for connection attempts
 });
 
+
+
 // Test the connection
 pool.connect((err, client, release) => {
   if (err) {

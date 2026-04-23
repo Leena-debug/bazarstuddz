@@ -22,6 +22,7 @@ const initTable = async () => {
 };
 initTable();
 
+
 // ADD to cart
 exports.addToCart = async (req, res) => {
   const { product_id, quantity } = req.body;

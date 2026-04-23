@@ -21,6 +21,7 @@ const initTable = async () => {
 };
 initTable();
 
+
 // ADD favorite
 exports.addFavorite = async (req, res) => {
   const { product_id } = req.body;

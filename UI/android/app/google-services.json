@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "809724783244",
+    "project_id": "aryna-ff67e",
+    "storage_bucket": "aryna-ff67e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:809724783244:android:6268f2b005e3b5d1dfa9a9",
+        "android_client_info": {
+          "package_name": "Arl.BazarStudDZ"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFSDFXvnblYqmUPtOzLowItKj25vQenJ0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

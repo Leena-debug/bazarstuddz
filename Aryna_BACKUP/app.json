@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "BazarStudDZ",
+    "slug": "bazarstuddz",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "icon": "./assets/images/App_Logo.png",
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/App_Logo.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.bazarstuddz.app",
+      "usesCleartextTraffic": true
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.bazarstuddz.app"
+    },
+    "web": {
+      "output": "static"
+    }
+  }
+}

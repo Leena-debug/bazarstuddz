@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const db = require('../config/db');
 
-// Real authentication (for when frontend has token)
+// ========== REAL AUTHENTICATION ==========
 const protect = async (req, res, next) => {
   let token;
 
@@ -8,9 +9,18 @@ const protect = async (req, res, next) => {
     try {
       token = req.headers.authorization.split(' ')[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = { id: decoded.id };
+      
+      const query = `SELECT id, fullname, email, phonenumber, user_type, role, points, rating FROM users WHERE id = $1`;
+      const result = await db.query(query, [decoded.id]);
+      
+      if (result.rows.length === 0) {
+        return res.status(401).json({ success: false, message: 'User not found' });
+      }
+      
+      req.user = result.rows[0];
       next();
     } catch (error) {
+      console.error('Auth error:', error);
       return res.status(401).json({ success: false, message: 'Not authorized' });
     }
   }
@@ -20,10 +30,4 @@ const protect = async (req, res, next) => {
   }
 };
 
-// Test version - fake user (use this for testing without login)
-const protectTest = async (req, res, next) => {
-  req.user = { id: 1 };
-  next();
-};
-
-module.exports = { protect, protectTest };
+module.exports = { protect };
